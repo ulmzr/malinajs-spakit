@@ -60,6 +60,8 @@ export default function router(routes, callback, err) {
    document.body.addEventListener("click", (ev) => {
       const isActive = ev.target.getAttribute("href");
       if (isActive) {
+         if (isActive.includes("http")) return;
+         console.log(outside);
          ev.preventDefault();
          start(isActive);
       }

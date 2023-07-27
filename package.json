@@ -1,11 +1,19 @@
 {
    "name": "malinajs-kit",
-   "version": "0.0.1",
+   "version": "1.0.1",
+   "author": "Yulmizar",
    "description": "Malina.js starter kit.",
    "main": "devserver.js",
-   "keywords": [],
-   "author": "",
-   "license": "ISC",
+   "keywords": [
+      "malinajs",
+      "malina",
+      "html"
+   ],
+   "license": "MIT",
+   "repository": {
+      "type": "git",
+      "url": "https://github.com/ulmzr/malinajs-kit"
+   },
    "dependencies": {
       "chokidar": "^3.5.3",
       "esbuild": "^0.18.17",
