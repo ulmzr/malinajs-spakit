@@ -91,6 +91,13 @@ function regRoute() {
 
       files.forEach((file) => {
          file = file.replace("src/routes/", "");
+
+         let checkCmp = file.split("/");
+         if (checkCmp.length > 1) {
+            let word = checkCmp.slice(-1)[0];
+            if (/[A-Z]/.test(word.charAt(0))) return;
+         }
+
          let rou = file.split("/").slice(0, -1).join("/");
          tmp += `\n\t{`;
 
