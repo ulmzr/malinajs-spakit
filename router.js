@@ -13,7 +13,6 @@ export default function router(routes, callback, err) {
          for (let i = 0; i < values.length; i++) {
             obj[`\$${i + 1}`] = values[i];
          }
-
          return obj;
       };
 

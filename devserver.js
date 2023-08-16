@@ -185,7 +185,6 @@ function indexHTML() {
 function reloadScript() {
    return `let socketUrl="ws://localhost:${port}";
 let wss=new WebSocket(socketUrl);
-let delay;
 wss.onclose = () => {
    let start = () => {
       wss = new WebSocket(socketUrl);
