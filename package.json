@@ -3,7 +3,7 @@
    "version": "1.0.4",
    "author": "Yulmizar",
    "description": "Malina.js starter kit.",
-   "main": "devserver.js",
+   "main": "app.js",
    "keywords": [
       "malinajs",
       "malina",
@@ -15,10 +15,16 @@
       "url": "https://github.com/ulmzr/malinajs-kit"
    },
    "dependencies": {
+      "@fastify/autoload": "^5.7.1",
+      "@fastify/sensible": "^5.2.0",
+      "@jgoz/esbuild-plugin-sass": "^2.0.4",
       "chokidar": "^3.5.3",
-      "esbuild": "^0.18.17",
-      "esbuild-sass-plugin": "^2.10.0",
-      "sass": "^1.64.1",
+      "dotenv": "^16.3.1",
+      "esbuild": "^0.19.2",
+      "esbuild-sass-plugin": "^2.12.0",
+      "fastify": "^4.21.0",
+      "ip": "^1.1.8",
+      "sass": "^1.65.1",
       "ws": "^8.13.0"
    }
 }

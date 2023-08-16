@@ -1,69 +1,66 @@
-export default function router(routes, callback, err) {
-   if (!routes) return $;
+export default (routes = [], e404) => {
+   let cbs = [];
+   let re = (p) => new RegExp("^" + p.replace(/:\w+/g, "(.+)"));
+   let curr;
 
-   const regex = (path) => new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
+   function route(x = location.pathname) {
+      if (curr === x) return;
+      if (typeof x !== "string") x = location.pathname;
+      else history.pushState(x, null, x);
 
-   const start = (uri) => {
-      if (typeof uri === "string") history.pushState(null, null, uri);
-
-      const params = () => {
-         const mustSlice = location.pathname.split("/").length - 1;
-         const values = location.pathname.split("/").slice(mustSlice);
-         let obj = {};
-         for (let i = 0; i < values.length; i++) {
-            obj[`\$${i + 1}`] = values[i];
+      let result = [];
+      for (let r = 0; r < routes.length; r++) {
+         let route = routes[r];
+         let matched,
+            keys,
+            values = [],
+            params = {},
+            found = x.match(re(route.path));
+         matched = found && found[0] === found.input;
+         if (matched) {
+            curr = found[0];
+            if (found[1]) values = found[1].split("/");
+            keys = route.path.match(/(:\w+)/g);
+            if (keys) {
+               keys = keys.map((x) => x.replace(":", ""));
+               for (let i = 0; i < values.length; i++) {
+                  if (i < keys.length) params[keys[i]] = values[i];
+                  else params[i] = values[i];
+               }
+               result.params = params;
+            }
+            result.page = route.page;
+            break;
          }
-         return obj;
-      };
-
-      const match = routes.filter((route) => {
-         let path = regex(route.path);
-         // let n = location.pathname.match(path);
-         return location.pathname.match(path);
-      })[0];
-
-      if (match) {
-         new Promise((resolve) => {
-            match.page.then((m) =>
-               resolve(
-                  callback({
-                     cmp: m.default,
-                     params: params(),
-                  })
-               )
-            );
-         });
-      } else if (typeof err === "object") {
-         new Promise((resolve) => {
-            err.then((m) =>
-               resolve(
-                  callback({
-                     cmp: m.default,
-                  })
-               )
-            );
-         });
-      } else if (typeof err === "function") {
-         callback({
-            cmp: err,
-         });
-      } else console.log("404 ☛ Page not found!");
-      scroll(0, 0);
-      return;
-   };
-
-   addEventListener("popstate", start);
-   addEventListener("replacestate", start);
-   addEventListener("pushstate", start);
-
-   document.body.addEventListener("click", (ev) => {
-      const isActive = ev.target.getAttribute("href");
-      if (isActive) {
-         if (isActive.includes("http")) return;
-         ev.preventDefault();
-         start(isActive);
       }
-   });
-
-   start(location.pathname);
-}
+      if (!result.page) {
+         result.page = e404;
+         result.path = "/";
+      }
+      cbs.map((cb) => cb(result));
+   }
+   function listen() {
+      addEventListener("popstate", route);
+      addEventListener("pushstate", route);
+      document.body.addEventListener("click", (e) => {
+         let link = e.target.getAttribute("href");
+         if (link) {
+            e.preventDefault();
+            route(link);
+         }
+      });
+   }
+   listen();
+   return {
+      route,
+      unlisten() {
+         removeEventListener("popstate", route);
+         removeEventListener("pushstate", route);
+         routes = [];
+      },
+      onroute(cb) {
+         cbs.push(cb);
+         return () => cbs.splice(cbs.indexOf(cb), 1);
+      },
+   };
+};
