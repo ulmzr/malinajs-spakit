@@ -309,7 +309,7 @@ function createRoutes() {
       cmp = cmp[0].toUpperCase() + cmp.slice(1);
       let content = [
          `import ${cmp} from "${x.replace("src/", "")}";`,
-         cmp === "Home" ? "/" : x.replace("pageIndex.xht", ":page"),
+         cmp === "Home" ? "/" : x.replace("pageIndex.xht", ":page/:id"),
          cmp,
       ];
       return content;
