@@ -136,12 +136,12 @@ function watching() {
       createRoutes();
       let ready = false;
       chokidar
-         .watch(["src", "pages"], {
+         .watch(["src/components", "src/modules", "src/pages"], {
             ignored: /(^|[\/\\])\../,
             persistent: true,
             cwd,
          })
-         .on("change", (pathname) => {
+         .on("add", (pathname) => {
             if (!ready) return;
             createRoutes();
             pathname = pathname.replace(/\\/g, "/");
@@ -158,19 +158,11 @@ function watching() {
             files = files.join("");
             pages = pages.join("");
             if (dir.includes("pages")) {
-               if (dir === "src/pages") files += 'export * from "../cmp";\n';
+               if (dir === "src/pages") files += 'export * from "../components";\n';
                else files += 'export * from "../";\n';
                if (files) fs.writeFileSync(path.join(dir, "index.js"), files);
                if (pages) fs.writeFileSync(path.join(dir, "pages.js"), pages);
             } else fs.writeFileSync(path.join(dir, "index.js"), files);
-         });
-
-      // Watch cmp folder
-      chokidar
-         .watch("src/pages", {
-            ignored: /(^|[\/\\])\../,
-            persistent: true,
-            cwd,
          })
          .on("addDir", (dir) => {
             if (!ready) return;
@@ -300,16 +292,14 @@ function createRoutes() {
    if (!autoroute) return;
    let files = getFiles("src/pages", 1);
    files = files.filter((x) => {
-      return x.includes("pageIndex.xht") || x.includes("Home.xht");
+      let f = x.split("/").slice(-1)[0];
+      return x.includes("pageIndex.xht") || x.includes("Home.xht") || f[0].match(/[A-Z]/);
    });
    files = files.map((x) => {
-      let cmp = x.replace("src/pages/", "").split("/").slice(0, -1);
-      cmp = cmp.length ? cmp : ["Home"];
-      cmp = cmp.join("/").replace(/.*(\/)/, "");
-      cmp = cmp[0].toUpperCase() + cmp.slice(1);
+      let cmp = x.split("/").slice(-1)[0].replace(".xht", "");
       let content = [
          `import ${cmp} from "${x.replace("src/", "")}";`,
-         cmp === "Home" ? "/" : x.replace("pageIndex.xht", ":page/:id"),
+         cmp === "Home" ? "/" : x.replace("pageIndex.xht", ":page"),
          cmp,
       ];
       return content;
@@ -323,7 +313,13 @@ function createRoutes() {
    files = files.reverse();
    content += "export default [\n";
    for (let i = 0; i < files.length; i++) {
-      content += '\t{ path: "' + files[i][1].replace("src/pages", "") + '", ' + "page: " + files[i][2] + " },\n";
+      content +=
+         '\t{ path: "' +
+         files[i][1].replace(/src\/pages|.xht/g, "").toLowerCase() +
+         '", ' +
+         "page: " +
+         files[i][2] +
+         " },\n";
    }
    content += "]";
 
