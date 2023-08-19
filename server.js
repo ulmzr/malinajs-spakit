@@ -143,26 +143,11 @@ function watching() {
          })
          .on("add", (pathname) => {
             if (!ready) return;
-            createRoutes();
-            pathname = pathname.replace(/\\/g, "/");
-            if (!pathname.endsWith(".xht")) return;
-            let dir = /.*(?<=\/)/.exec(pathname)[0];
-            if (dir[dir.length - 1] === "/") dir = dir.slice(0, -1);
-            let _files = getCmp(dir);
-            let files = _files.filter((x) => {
-               return !x.includes("/+");
-            });
-            let pages = _files.filter((x) => {
-               return x.includes("/+");
-            });
-            files = files.join("");
-            pages = pages.join("");
-            if (dir.includes("pages")) {
-               if (dir === "src/pages") files += 'export * from "../components";\n';
-               else files += 'export * from "../";\n';
-               if (files) fs.writeFileSync(path.join(dir, "index.js"), files);
-               if (pages) fs.writeFileSync(path.join(dir, "pages.js"), pages);
-            } else fs.writeFileSync(path.join(dir, "index.js"), files);
+            addDeleteFile(pathname);
+         })
+         .on("unlink", (pathname) => {
+            if (!ready) return;
+            addDeleteFile(pathname);
          })
          .on("addDir", (dir) => {
             if (!ready) return;
@@ -271,6 +256,30 @@ function getCmp(dir, recursive = 0) {
          return x;
       });
    return res;
+}
+
+function addDeleteFile(pathname) {
+   createRoutes();
+   pathname = pathname.replace(/\\/g, "/");
+   if (!pathname.endsWith(".svelte")) return;
+   let dir = /.*(?<=\/)/.exec(pathname)[0];
+   if (dir[dir.length - 1] === "/") dir = dir.slice(0, -1);
+   let _files = getCmp(dir);
+   let files = _files.filter((x) => {
+      return !x.includes("/+");
+   });
+   let pages = _files.filter((x) => {
+      return x.includes("/+");
+   });
+   files = files.join("");
+   pages = pages.join("");
+   if (dir.includes("pages")) {
+      if (dir === "src/pages") {
+         files += 'export * from "../components";\nexport * from "../modules";\n';
+      } else files += 'export * from "../";\n';
+      if (files) fs.writeFileSync(path.join(dir, "index.js"), files);
+      if (pages) fs.writeFileSync(path.join(dir, "pages.js"), pages);
+   } else fs.writeFileSync(path.join(dir, "index.js"), files);
 }
 
 function getFiles(dir, recursive = 0) {
