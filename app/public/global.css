@@ -1,0 +1,170 @@
+@font-face {
+   font-family: "FiraSans";
+   src: url("/fonts/FiraSans.woff2") format("woff2");
+}
+
+@font-face {
+   font-family: "FiraCode";
+   src: url("/fonts/FiraCodeNerdFont.woff2") format("woff2");
+}
+
+@font-face {
+   font-family: "ShadowsIntoLight";
+   src: url("/fonts/ShadowsIntoLight.woff2") format("woff2");
+}
+
+*,
+*::before,
+*::after {
+   box-sizing: border-box;
+}
+
+* {
+   margin: 0;
+}
+
+body {
+   font-family: "FiraSans", system-ui;
+   line-height: 1.5;
+   -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+   display: block;
+   max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+   font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+   overflow-wrap: break-word;
+}
+
+/* headings */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+   line-height: 1.125;
+   margin-top: 1.5rem;
+}
+
+h1 {
+   font-size: 2.25em;
+}
+
+h2 {
+   font-size: 1.85em;
+}
+
+h3 {
+   font-size: 1.5em;
+}
+
+h4 {
+   font-size: 1.17em;
+}
+
+h5 {
+   font-size: 1em;
+}
+
+h6 {
+   font-size: 0.83em;
+}
+
+p {
+   margin-top: 1rem;
+}
+
+/* inline elements */
+
+article {
+   max-width: 960px;
+   margin: 0 auto;
+}
+
+hr {
+   border: 0;
+   height: 0.0625em;
+   background: var(--horizontal-rule);
+   margin: 1rem 0 1.5rem;
+}
+
+:not(p) > a {
+   text-decoration: none;
+   color: inherit;
+}
+
+:is(hgroup, header, footer) :is(h1, h2, h3, h4, h5, h6) {
+   margin-top: unset;
+}
+
+/* layout */
+
+body > aside {
+   position: fixed;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   row-gap: 0.5rem;
+   top: 0;
+   bottom: 0;
+   left: var(--sidebar-offcanvas);
+   width: var(--sidebar-wide);
+   background: var(--sidebar-background);
+   color: var(--sidebar-color);
+}
+
+body > main {
+   padding: 1rem;
+}
+
+aside > main {
+   flex: 1;
+   overflow-x: hidden;
+   overflow-y: auto;
+}
+
+main a {
+   display: block;
+}
+
+@media screen and (min-width: 768px) {
+   body > aside {
+      left: 0;
+   }
+
+   body > aside ~ main {
+      padding: 1rem 2rem;
+      margin-left: var(--sidebar-wide);
+   }
+
+   body > aside ~ main > article {
+      max-width: unset;
+   }
+}
+
+/* helper */
+
+[mute] {
+   color: #bbb;
+}

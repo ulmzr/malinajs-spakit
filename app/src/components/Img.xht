@@ -1,0 +1,61 @@
+<script>
+   export let src;
+   export let avatar;
+
+   let savedSrc = src, height;
+   src = '';
+
+   if (avatar) {
+      height = 24 * Number(avatar)
+   }
+
+   function interObs(el) {
+      const io = new IntersectionObserver((entries,o) => {
+         entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+               let e = entry.target;
+               e.src = savedSrc;
+               o.unobserve(e);
+            }
+         });
+      });
+      io.observe(el);
+   }
+</script>
+
+{#if avatar}
+   <img *interObs {...$attributes} {height} 
+      class:avatar
+   >
+{:else}
+   <img *interObs {...$attributes}/> 
+{/if}
+
+<style>
+   .avatar {
+      display: inline-block;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 100%;
+   }
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

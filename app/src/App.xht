@@ -1,0 +1,38 @@
+<script>
+   import Router from "../../router";
+   // import routes from "./routes";
+
+   import { E404 } from "@cmp";
+
+   let cmp, params;
+
+   const router = Router(routes, E404, (route) => {
+      cmp = route.page;
+      params = route.params;
+   });
+
+   $onMount(router.listen);
+   $onDestroy(router.unlisten);
+</script>
+
+
+<aside>
+   <p>Sidebar</p>
+</aside>
+
+<main>
+   <article>
+      <hgroup>
+         <h1>Basic</h1>
+         <h3 mute>About basic styling</h3>
+      </hgroup>
+      <hr>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam saepe assumenda praesentium earum nam consequuntur voluptas a debitis, nesciunt beatae! Quas perferendis maxime cum! Sed quo ut magni voluptate ullam.</p>
+      <h2>Headings</h2>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam saepe assumenda praesentium earum nam consequuntur voluptas a debitis, nesciunt beatae! Quas perferendis maxime cum! Sed quo ut magni voluptate ullam.</p>
+   </article>
+</main>
+
+
+
+

@@ -1,0 +1,16 @@
+<script>
+   export let params;
+</script>
+
+<article>
+   <hgroup>
+      <h1>Paragraph</h1>
+      <h3 mute>About paragraph</h3>
+   </hgroup>
+   <hr/>
+   <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Mollitia saepe, aperiam magnam sequi officiis quas nulla amet illo perspiciatis rem! Deleniti obcaecati aut illo quibusdam voluptas omnis eligendi asperiores est.</p>
+   <br>
+   {#if params}
+      <pre>{JSON.stringify(params)}</pre>
+   {/if}
+</article>

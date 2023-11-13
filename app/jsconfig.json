@@ -1,0 +1,10 @@
+{
+   "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+         "@cmp": ["src"],
+         "@store": ["src/stores/index.js"],
+         "@menu": ["src/stores/menu.js"]
+      }
+   }
+}

@@ -1,0 +1,28 @@
+<script>
+   import * as pages from './index.js';
+   export let params;
+
+   let cmp; 
+
+   $:params, cmp = pages[params["0"]] || null;
+   $:params, console.log(params)
+</script>
+
+{#if cmp}
+   <component:cmp {params} />
+{:elif Object.keys(params).length === 0 || typeof params === 'object' }
+   <article>
+      <hgroup>
+         <h1>Features</h1>
+         <h3 mute>About Features</h3>
+      </hgroup>
+      <hr>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit impedit, magnam voluptatum excepturi earum unde adipisci nihil minus, autem voluptate quidem alias quos accusantium maxime dolores laboriosam. Sapiente, sunt veniam.</p>
+      {#if typeof params === "object"}
+         <br>
+         <pre>{JSON.stringify(params)}</pre>   
+      {/if}
+   </article>
+{:else}
+   <E404/>
+{/if}

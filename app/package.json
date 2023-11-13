@@ -1,10 +1,10 @@
 {
-   "name": "test",
-   "version": "1.0.0",
+   "name": "app",
+   "version": "0.1.0",
    "description": "",
    "main": "index.js",
    "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+      "dev": "node ../ -w"
    },
    "keywords": [],
    "author": "",
@@ -13,11 +13,5 @@
       "esbuild": "^0.19.5",
       "esbuild-sass-plugin": "^2.16.0",
       "malinajs": "^0.7.17"
-   },
-   "dependencies": {
-      "chokidar": "^3.5.3",
-      "fast-glob": "^3.3.1",
-      "glob": "^10.3.10",
-      "ws": "^8.14.2"
    }
 }

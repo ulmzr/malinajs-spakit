@@ -1,0 +1,10 @@
+:root {
+   /* sidebar */
+   --sidebar-wide: 16rem;
+   --sidebar-thin: 3.5rem;
+   --sidebar-offcanvas: -16rem;
+   --sidebar-background: #252526;
+   --sidebar-color: #cccccc;
+
+   --horizontal-rule: #f1f2f3;
+}

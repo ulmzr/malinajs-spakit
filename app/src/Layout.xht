@@ -1,0 +1,37 @@
+<script>
+   import Router from "../../router";
+   import routes from "./routes";
+   import E404 from "containers/E404.xht";
+
+   let cmp, params;
+   let me = window.location.pathname + window.location.search
+
+   const router = Router(routes, E404, (route) => {
+      cmp = route.page;
+      params = route.params;
+   });
+
+
+   $onMount(router.listen);
+   $onDestroy(router.unlisten);
+</script>
+
+<aside>
+   <header><h4>Header</h4></header>
+   <main>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/features">Features</a>
+      <a href="/features/paragraph">Paragraph Page</a>
+      <a href="/features/paragraph/01/12/2023">Paragraph Others</a>
+      <a href="/features/error">Error 404</a>
+      <a href="/features?token=sljdlfgdfdsfmnnvclj&username=pasrah">Params</a>
+   </main>
+   <footer><h4>Footer</h4></footer>
+</aside>
+
+{#if cmp}
+   <main>
+      <component:cmp {params} />
+   </main>
+{/if}
